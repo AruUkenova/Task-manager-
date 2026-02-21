@@ -42,7 +42,7 @@ LazyDatabase _openConnection() {
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
-  /// поставь 1 если не хочешь миграцию
+  /// 2
   @override
   int get schemaVersion => 2;
 
