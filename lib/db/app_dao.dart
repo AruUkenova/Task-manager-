@@ -14,7 +14,7 @@ enum TaskSort { byDate, byPriority }
 class AppDao extends DatabaseAccessor<AppDatabase> with _$AppDaoMixin {
   AppDao(super.db);
 
-  // ---------------- TAGS CRUD ----------------
+  //  TAGS CRUD 
 
   Future<int> addTag(String name) {
     return into(tags).insert(TagsCompanion(name: Value(name.trim())));
@@ -33,7 +33,7 @@ class AppDao extends DatabaseAccessor<AppDatabase> with _$AppDaoMixin {
   Stream<List<Tag>> watchTags() => select(tags).watch();
   Future<List<Tag>> getTagsOnce() => select(tags).get();
 
-  // ---------------- TASKS CRUD ----------------
+  // TASKS CRUD 
 
   Future<int> addTask({
     required String title,
@@ -73,7 +73,7 @@ class AppDao extends DatabaseAccessor<AppDatabase> with _$AppDaoMixin {
     await (delete(tasks)..where((t) => t.id.equals(id))).go();
   }
 
-  // ---------------- WATCH / GET (join + sorting) ----------------
+  //  WATCH / GET 
 
   Stream<List<TaskWithTag>> watchTasks(TaskSort sort) {
     final q = select(tasks).join([
@@ -101,7 +101,7 @@ class AppDao extends DatabaseAccessor<AppDatabase> with _$AppDaoMixin {
 
   Future<List<TaskWithTag>> getTasksOnce(TaskSort sort) => watchTasks(sort).first;
 
-  // ---------------- JSON EXPORT / IMPORT ----------------
+  // JSON EXPORT / IMPORT
 
   Future<Map<String, dynamic>> exportToJsonMap() async {
     final allTags = await getTagsOnce();
@@ -161,8 +161,7 @@ class AppDao extends DatabaseAccessor<AppDatabase> with _$AppDaoMixin {
           tagId: tagId,
         );
 
-        // если в JSON есть isDone — можно обновить последнюю вставку сложнее,
-        // поэтому просто пропустим; или делай отдельный insert с isDone через companion.
+        
       }
     });
   }
